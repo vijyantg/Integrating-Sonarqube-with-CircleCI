@@ -1,1 +1,24 @@
+version: 2.1
+orbs: 
+  sonarqube: clicklogiq/sonarqube@1.0.1
+jobs:
+  build:
+    docker:
+      - image: cimg/aws:2022.06
+        environment:  
+          AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+          AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+          AWS_DEFAULT_REGION: $AWS_REGION
+      
+    working_directory: ~/workspace/circleci
+    steps:
+      - checkout
 
+        
+workflows:
+  version: 2
+  build_and_deploy:
+    jobs:
+      - build
+ 
+          
