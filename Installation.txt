@@ -1,0 +1,101 @@
+[Install Java 11]
+sudo amazon-linux-extras install java-openjdk11
+java -version
+
+[Epel Repo access]
+sudo amazon-linux-extras install epel
+
+[postgresql 13 repo in Amazon Linux 2]
+sudo tee /etc/yum.repos.d/pgdg.repo<<EOF
+[pgdg13]
+name=PostgreSQL 13 for RHEL/CentOS 7 - x86_64
+baseurl=https://download.postgresql.org/pub/repos/yum/13/redhat/rhel-7-x86_64
+enabled=1
+gpgcheck=0
+EOF
+
+[Install PostgreSQL 13]
+sudo yum install postgresql13 postgresql13-server
+
+[Now let’s initialize and start postgresql database service]
+sudo /usr/pgsql-13/bin/postgresql-13-setup initdb
+
+[Now lets enable the PostgreSQL service on Amazon Linux 2 with below commands.]
+sudo systemctl enable --now postgresql-13
+
+[To check PostgreSQL service on Amazon Linux 2]
+sudo systemctl status postgresql-13
+
+[Change the password for the default PostgreSQL user]
+sudo passwd postgres
+
+[Switch to the postgres user]
+su - postgres
+
+[Create a new user by typing]
+createuser sonar
+
+[Switch to the PostgreSQL shell]
+psql
+
+[Set a password for the newly created user for SonarQube database]
+ALTER USER sonar WITH ENCRYPTED password 'PASSWORD';
+
+[Create a new database for PostgreSQL database by running]
+CREATE DATABASE sonarqube OWNER sonar;
+
+[grant all privileges to sonar user on sonarqube Database]
+Output=GRANT
+
+[grant all privileges on DATABASE sonarqube to sonar]
+
+[Exit from the psql shell]
+\q
+
+[Switch back to the sudo user by running the exit command]
+exit
+
+[install Sonarqube]
+cd /tmp
+wget https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.6.0.59041.zip                                                                          
+#verify link with https://www.sonarqube.org/downloads/
+sudo unzip sonarqube-9.6.0.59041.zip -d /opt
+sudo mv /opt/sonarqube-9.6.0.59041/ /opt/sonarqube
+sudo vi  /etc/sysctl.conf
+```bash
+vm.max_map_count=524288
+fs.file-max=131072
+ulimit -n 131072
+ulimit -u 8192
+
+sudo vi /etc/security/limits.conf
+```bash
+sonarqube   -   nofile   131072
+sonarqube   -   nproc    8192
+```
+[switch to root]
+sudo su
+init 6
+   
+[add group ]
+sudo groupadd sonar
+
+[add user and give permission]
+sudo useradd -c "user to run SonarQube" -d /opt/sonarqube -g sonar sonar
+sudo chown -R sonar:sonar /opt/sonarqube
+sudo vi  /opt/sonarqube/conf/sonar.properties
+look for /
+sonar.jdbc.username=sonar
+sonar.jdbc.password=sonar
+
+[Lets start SonarQube]
+cd /opt/sonarqube/bin/linux-x86-64/
+./sonar.sh start
+
+
+[check logs]
+tail /opt/sonarqube/logs/sonar.log
+
+
+[Access SonarQube]
+http://server_IP:9000 OR http://localhost:9000

@@ -1,2 +1,1 @@
-# sonarqube
-scan repo with sonarqube
+# devops-poc using CircleCi
