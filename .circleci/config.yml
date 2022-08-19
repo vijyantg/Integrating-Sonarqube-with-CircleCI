@@ -26,5 +26,5 @@ workflows:
   sonarqube:
     jobs:
       - sonarscanner:
-        context: SonarQube 
+         context: SonarQube 
           
