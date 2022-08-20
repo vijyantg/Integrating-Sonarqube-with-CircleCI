@@ -19,9 +19,6 @@ jobs:
           export PATH=$SONAR_SCANNER_HOME/bin:$PATH
           export SONAR_SCANNER_OPTS="-server"
           sonar-scanner -v
-     - sonarscanner/scan
-     - run: |
-        sonar-scanner -Dsonar.login=sqp_49467997c2c3beb4b7fb467ff9c946268c33ce2d
      - run:
         name: Execute Sonarqube sonarscanner
         command: |
