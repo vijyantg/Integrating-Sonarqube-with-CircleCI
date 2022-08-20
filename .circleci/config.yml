@@ -5,7 +5,7 @@ jobs:
   sonarscanner:
     docker:
       - image: cimg/base
-    working directory: ~/workspace/circleci
+    working_directory: ~/workspace/circleci
             
     steps:
      - checkout
