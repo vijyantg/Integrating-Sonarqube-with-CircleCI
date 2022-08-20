@@ -3,7 +3,12 @@ orbs:
   sonarqube: psl/sonarscanner@0.0.4
 jobs:
   sonarscanner:
+    docker:
+      - image: cimg/base
+    working directory: ~/workspace/circleci
+            
     steps:
+     - checkout
      - run: 
         name: Install Sonarqube sonarscanner
         command: |
