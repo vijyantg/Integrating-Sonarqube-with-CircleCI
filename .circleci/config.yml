@@ -22,11 +22,11 @@ jobs:
      - run:
         name: Execute Sonarqube sonarscanner
         command: |
-        #sonar-scanner \
-        #-Dsonar.projectKey=sonarqube \
-         #-Dsonar.sources=. \
-         #-Dsonar.host.url=http://52.208.63.176:9000 
-         #export SONAR_SCANNER_OPTS="-Xmx2048m"
+          sonar-scanner \
+          # -Dsonar.projectKey=sonarqube \
+          # -Dsonar.sources=. \
+          # -Dsonar.host.url=http://52.208.63.176:9000 
+          # export SONAR_SCANNER_OPTS="-Xmx2048m"
           eval ./sonar-scanner-4.7.0.2747/bin/sonar-scanner -Dsonar.host.url=http://52.208.63.176:9000 \
           -Dsonar.sources=. \
           -Dsonar.login=sqp_49467997c2c3beb4b7fb467ff9c946268c33ce2d
