@@ -4,7 +4,7 @@ orbs:
 jobs:
   sonarscanner:
     docker:
-      - image: cimg/go
+      - image: cimg/go:1.13
     working_directory: ~/workspace/circleci            
     steps:
      - checkout
