@@ -4,9 +4,8 @@ orbs:
 jobs:
   sonarscanner:
     docker:
-      - image: cimg/deploy:2022.07
-    working_directory: ~/workspace/circleci
-            
+      - image: cimg/go
+    working_directory: ~/workspace/circleci            
     steps:
      - checkout
      - run: 
@@ -20,6 +19,11 @@ jobs:
           export SONAR_SCANNER_OPTS="-server"
           sonar-scanner -v
           which sonar-scanner
+
+     - run:
+          go test -v
+          go test -coverprofile=coverage.out
+          go tool cover -html=coverage.out
      - run:
         name: Execute Sonarqube sonarscanner
         command: |
